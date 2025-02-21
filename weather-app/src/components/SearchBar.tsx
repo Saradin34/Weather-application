@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./SearchBar.module.scss";
 
 interface SearchBarProps {
     onSearch: (city: string) => void;
@@ -13,18 +14,15 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="mb-8">
+        <form onSubmit={handleSubmit} className={styles.form}>
             <input
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Введите город"
-                className="p-2 border border-gray-300 rounded-l-lg focus:outline-none"
+                className={styles.input}
             />
-            <button
-                type="submit"
-                className="p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600"
-            >
+            <button type="submit" className={styles.button}>
                 Поиск
             </button>
         </form>
