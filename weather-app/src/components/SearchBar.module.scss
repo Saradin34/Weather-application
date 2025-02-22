@@ -1,13 +1,6 @@
 .form {
   display: flex;
   margin-bottom: 2rem;
-  width: 100%;
-  max-width: 400px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 .input {
@@ -19,12 +12,6 @@
 
   &:focus {
     border-color: #3b82f6;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    border-radius: 0.25rem;
-    margin-bottom: 0.5rem;
   }
 }
 
@@ -38,10 +25,5 @@
 
   &:hover {
     background: #2563eb;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    border-radius: 0.25rem;
   }
 }

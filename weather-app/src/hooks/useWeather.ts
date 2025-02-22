@@ -6,10 +6,21 @@ interface WeatherData {
     temperature: number;
     description: string;
     icon: string;
+    humidity: number;
+    windSpeed: number;
+    pressure: number;
+}
+
+interface ForecastData {
+    date: string;
+    temperature: number;
+    icon: string;
 }
 
 const useWeather = () => {
     const [weather, setWeather] = useState<WeatherData | null>(null);
+    const [forecast, setForecast] = useState<ForecastData[]>([]);
+    const [hourlyForecast, setHourlyForecast] = useState<HourlyForecastData[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -19,17 +30,57 @@ const useWeather = () => {
 
         try {
             const apiKey = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
-            const response = await axios.get(
-                `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+
+            // Текущая погода
+            const weatherResponse = await axios.get(
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru`
             );
 
-            const data = response.data;
+            const weatherData = weatherResponse.data;
             setWeather({
-                city: data.name,
-                temperature: data.main.temp,
-                description: data.weather[0].description,
-                icon: data.weather[0].icon,
+                city: weatherData.name,
+                temperature: weatherData.main.temp,
+                description: weatherData.weather[0].description,
+                icon: weatherData.weather[0].icon,
+                humidity: weatherData.main.humidity,
+                windSpeed: weatherData.wind.speed,
+                pressure: weatherData.main.pressure,
             });
+
+            // Прогноз на 5 дней
+            const forecastResponse = await axios.get(
+                `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=ru`
+            );
+
+            // Группировка прогнозов по дням
+            const groupedForecast: { [key: string]: any } = {};
+
+            forecastResponse.data.list.forEach((item: any) => {
+                const date = item.dt_txt.split(" ")[0]; // Получаем дату без времени
+                if (!groupedForecast[date]) {
+                    groupedForecast[date] = item;
+                }
+            });
+
+            // Преобразуем в массив и выбираем только 5 дней
+            const forecastData = Object.keys(groupedForecast)
+                .slice(0, 5)
+                .map((date) => ({
+                    date,
+                    temperature: groupedForecast[date].main.temp,
+                    icon: groupedForecast[date].weather[0].icon,
+                }));
+
+            setForecast(forecastData);
+
+            // Сохраняем почасовой прогноз
+            setHourlyForecast(
+                forecastResponse.data.list.map((item: any) => ({
+                    date: item.dt_txt,
+                    temperature: item.main.temp,
+                    icon: item.weather[0].icon,
+                }))
+            );
         } catch (err) {
             setError("Город не найден. Попробуйте снова.");
         } finally {
@@ -37,7 +88,7 @@ const useWeather = () => {
         }
     };
 
-    return { weather, loading, error, fetchWeather };
+    return { weather, forecast, hourlyForecast, loading, error, fetchWeather };
 };
 
 export default useWeather;

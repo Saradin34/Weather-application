@@ -1,0 +1,126 @@
+@charset "UTF-8";
+.forecast {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.item {
+  background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+.item p {
+  margin: 0.5rem 0;
+  color: #2c3e50;
+}
+.item img {
+  width: 60px;
+  height: 60px;
+  margin: 0.5rem auto;
+}
+
+/* Стили для модального окна */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #1e293b;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 90%;
+  position: relative;
+  color: #fff;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #fff;
+}
+.closeButton:hover {
+  color: #ccc;
+}
+
+.chartContainer {
+  width: 100%;
+  height: 300px;
+  margin-top: 1rem;
+}
+
+/* Стили для слайдера */
+.swiper {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hourlyItem {
+  background: #334155;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  color: #fff;
+}
+.hourlyItem p {
+  margin: 0.5rem 0;
+}
+.hourlyItem img {
+  width: 40px;
+  height: 40px;
+  margin: 0.25rem auto;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .item {
+    width: 100%;
+    max-width: 300px;
+  }
+  .modal {
+    padding: 1rem;
+  }
+  .swiper {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=Forecast.module.css.map */

@@ -1,17 +1,25 @@
 import { motion } from "framer-motion";
 import styles from "./WeatherCard.module.scss";
-import { translateWeather } from ".././utils/translateWeather.ts";
 
 interface WeatherCardProps {
     city: string;
     temperature: number;
     description: string;
     icon: string;
+    humidity: number;
+    windSpeed: number;
+    pressure: number;
 }
 
-const WeatherCard = ({ city, temperature, description, icon }: WeatherCardProps) => {
-    const translatedDescription = translateWeather(description);
-
+const WeatherCard = ({
+                         city,
+                         temperature,
+                         description,
+                         icon,
+                         humidity,
+                         windSpeed,
+                         pressure,
+                     }: WeatherCardProps) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: -50 }}
@@ -26,7 +34,12 @@ const WeatherCard = ({ city, temperature, description, icon }: WeatherCardProps)
                 className={styles.icon}
             />
             <p className={styles.temperature}>{Math.round(temperature)}°C</p>
-            <p className={styles.description}>{translatedDescription}</p>
+            <p className={styles.description}>{description}</p>
+            <div className={styles.details}>
+                <p>Влажность: {humidity}%</p>
+                <p>Ветер: {windSpeed} м/с</p>
+                <p>Давление: {pressure} гПа</p>
+            </div>
         </motion.div>
     );
 };
