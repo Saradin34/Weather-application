@@ -15,7 +15,6 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
-// Импортируем стили Swiper
 import "swiper/css";
 
 ChartJS.register(
@@ -26,7 +25,7 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend,
-    Filler // Добавляем плагин для заливки под линией
+    Filler
 );
 
 interface ForecastProps {
@@ -49,27 +48,25 @@ const Forecast = ({ forecast, hourlyForecast = [] }: ForecastProps) => {
 
     const handleDayClick = (date: string) => {
         setSelectedDate(date);
-        setIsModalOpen(true); // Открываем модальное окно
+        setIsModalOpen(true);
     };
 
     const closeModal = () => {
-        setIsModalOpen(false); // Закрываем модальное окно
+        setIsModalOpen(false);
         setSelectedDate(null);
     };
 
-    // Фильтруем почасовой прогноз для выбранной даты
     const filteredHourlyForecast = selectedDate
         ? hourlyForecast.filter((item) => item.date.startsWith(selectedDate))
         : [];
 
-    // Данные для графика
     const chartData = {
-        labels: filteredHourlyForecast.map((item) => item.date.split(" ")[1]), // Время
+        labels: filteredHourlyForecast.map((item) => item.date.split(" ")[1]),
         datasets: [
             {
                 label: "Температура (°C)",
                 data: filteredHourlyForecast.map((item) => item.temperature),
-                borderColor: "rgba(99, 102, 241, 1)", // Фиолетовый цвет линии
+                borderColor: "rgba(99, 102, 241, 1)",
                 backgroundColor: (context: any) => {
                     const ctx = context.chart.ctx;
                     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -77,23 +74,22 @@ const Forecast = ({ forecast, hourlyForecast = [] }: ForecastProps) => {
                     gradient.addColorStop(1, "rgba(99, 102, 241, 0)");
                     return gradient;
                 },
-                fill: true, // Заливка под линией
-                tension: 0.4, // Плавность линии
-                pointRadius: 5, // Размер точек
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
                 pointBackgroundColor: "rgba(99, 102, 241, 1)",
                 pointBorderColor: "#fff",
-                pointHoverRadius: 7, // Размер точек при наведении
+                pointHoverRadius: 7,
             },
         ],
     };
 
-    // Настройки для графика
     const chartOptions = {
         responsive: true,
-        maintainAspectRatio: false, // Отключаем фиксированное соотношение сторон
+        maintainAspectRatio: false,
         plugins: {
             legend: {
-                display: false, // Скрываем легенду
+                display: false,
             },
             tooltip: {
                 backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -111,10 +107,10 @@ const Forecast = ({ forecast, hourlyForecast = [] }: ForecastProps) => {
         scales: {
             x: {
                 grid: {
-                    display: false, // Скрываем сетку по оси X
+                    display: false,
                 },
                 ticks: {
-                    color: "#ccc", // Цвет текста на оси X
+                    color: "#ccc",
                     font: {
                         size: 12,
                     },
@@ -122,20 +118,20 @@ const Forecast = ({ forecast, hourlyForecast = [] }: ForecastProps) => {
             },
             y: {
                 grid: {
-                    color: "rgba(255, 255, 255, 0.1)", // Цвет сетки по оси Y
+                    color: "rgba(255, 255, 255, 0.1)",
                 },
                 ticks: {
-                    color: "#ccc", // Цвет текста на оси Y
+                    color: "#ccc",
                     font: {
                         size: 12,
                     },
-                    callback: (value: any) => `${value}°C`, // Добавляем °C к значениям на оси Y
+                    callback: (value: any) => `${value}°C`,
                 },
             },
         },
         animation: {
-            duration: 1000, // Продолжительность анимации
-            easing: "easeInOutQuart", // Тип анимации
+            duration: 1000,
+            easing: "easeInOutQuart",
         },
     };
 
@@ -159,7 +155,6 @@ const Forecast = ({ forecast, hourlyForecast = [] }: ForecastProps) => {
                 ))}
             </div>
 
-            {/* Модальное окно */}
             {isModalOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modal}>
@@ -171,7 +166,6 @@ const Forecast = ({ forecast, hourlyForecast = [] }: ForecastProps) => {
                             <Line data={chartData} options={chartOptions} />
                         </div>
 
-                        {/* Слайдер для почасового прогноза */}
                         <Swiper
                             modules={[Navigation, Pagination]}
                             spaceBetween={10}

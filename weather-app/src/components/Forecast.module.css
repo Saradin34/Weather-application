@@ -35,7 +35,6 @@
   margin: 0.5rem auto;
 }
 
-/* Стили для модального окна */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -80,7 +79,6 @@
   margin-top: 1rem;
 }
 
-/* Стили для слайдера */
 .swiper {
   width: 100%;
   margin-top: 1rem;

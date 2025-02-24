@@ -38,7 +38,6 @@
 
 }
 
-/* Стили для модального окна */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -53,14 +52,14 @@
 }
 
 .modal {
-  background: #1e293b; // Темный фон модального окна
+  background: #1e293b;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 90%;
   position: relative;
-  color: #fff; // Белый текст
+  color: #fff;
 }
 
 .closeButton {
@@ -80,11 +79,10 @@
 
 .chartContainer {
   width: 100%;
-  height: 300px; // Фиксированная высота графика
+  height: 300px;
   margin-top: 1rem;
 }
 
-/* Стили для слайдера */
 .swiper {
   width: 100%;
   margin-top: 1rem;

@@ -47,22 +47,19 @@ const useWeather = () => {
                 pressure: weatherData.main.pressure,
             });
 
-            // Прогноз на 5 дней
             const forecastResponse = await axios.get(
                 `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=ru`
             );
 
-            // Группировка прогнозов по дням
             const groupedForecast: { [key: string]: any } = {};
 
             forecastResponse.data.list.forEach((item: any) => {
-                const date = item.dt_txt.split(" ")[0]; // Получаем дату без времени
+                const date = item.dt_txt.split(" ")[0];
                 if (!groupedForecast[date]) {
                     groupedForecast[date] = item;
                 }
             });
 
-            // Преобразуем в массив и выбираем только 5 дней
             const forecastData = Object.keys(groupedForecast)
                 .slice(0, 5)
                 .map((date) => ({
@@ -73,7 +70,6 @@ const useWeather = () => {
 
             setForecast(forecastData);
 
-            // Сохраняем почасовой прогноз
             setHourlyForecast(
                 forecastResponse.data.list.map((item: any) => ({
                     date: item.dt_txt,
